@@ -17,7 +17,6 @@ dynamicQueue::~dynamicQueue(){
 
 bool dynamicQueue::isEmpty(){
     return (inicio == nullptr);
-
 }
 
 bool dynamicQueue::isFull(){

@@ -1,18 +1,18 @@
 typedef int TipoItem; //para poder trocar o tipo dos elementos da stack de forma mais facil
 
-struct Node {
+struct Node2 {
     TipoItem valor;
-    Node* prox;
+    Node2 *anterior, *prox;
 };
 
-class dynamicQueue{
+class listaDupla{
     private:
-    Node* inicio;
+    Node2* inicio;
     Node* fim;
     
     public:
-    dynamicQueue(); //construtor
-    ~dynamicQueue(); //destrutor
+    listaDupla(); //construtor
+    ~listaDupla(); //destrutor
     
     bool isEmpty();
     bool isFull();

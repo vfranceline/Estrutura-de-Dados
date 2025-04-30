@@ -16,6 +16,7 @@ class listaDupla{
     bool isEmpty();
     bool isFull();
     void push(TipoItem item);
-    bool pop(TipoItem item);
-    void print();
+    void pop(TipoItem item);
+    void printCrescente();
+    void printDecrescente();
 };

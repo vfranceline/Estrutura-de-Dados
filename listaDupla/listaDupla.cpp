@@ -52,7 +52,7 @@ void listaDupla::push(TipoItem item){
         novo->anterior = atual;
         novo->prox = nullptr;
         return;
-    } else if ((atual == inicio) && (atual->valor <= novo->valor)){ //antes do inicio
+    } else if ((atual == inicio)){ //antes do inicio
         novo->prox = inicio;
         inicio->anterior = novo;
         novo->anterior = nullptr;
@@ -64,38 +64,74 @@ void listaDupla::push(TipoItem item){
         atual->anterior = novo;
     }
 
-    //TO-DO: lista ordenada simples com sublistas
+    //TO-DO: lista ordenada com sublistas
     //sublistas de pares e impares
 
     
 }
 
-bool listaDupla::pop(TipoItem item){
+void listaDupla::pop(TipoItem item){
     if (isEmpty()){
-        cout << "lista vazia! \n não foi possivel remover nenhum elemento";
-        return false;
+        cout << "lista vazia! \nnão foi possivel remover nenhum elemento";
+        return;
     } else {
         Node2 *atual = inicio;
-        while ((atual->prox != nullptr) && (atual->valor != item)){
+        while ((atual != nullptr) && (atual->valor != item)){
             atual = atual->prox;
         }
         
-        if (atual->valor == item){
-            atual->anterior->prox = atual->prox; //nn é isso, tem q ter um aux
+        if (atual == nullptr){
+            cout << "não existe esse elemento na lista \n";
+            return;
 
-        } else {
-            return false;
+        } 
+        if ((inicio == atual) && (atual->prox == nullptr)){
+            inicio = nullptr;
+            return;
         }
+        if (inicio == atual){
+            inicio = inicio->prox;
+            inicio->anterior = nullptr;
+        } else {
+            if (atual->prox == nullptr){
+                atual->anterior->prox = nullptr;
+            } else {
+                atual->anterior->prox = atual->prox;
+                atual->prox->anterior = atual->anterior;
+            }
+        }
+        delete atual;
     }
 }
 
-void listaDupla::print(){
+void listaDupla::printCrescente(){
+    if (isEmpty()) {
+        cout << "não existe essa lista \n";
+    } else{
+        Node2* atual = inicio;
+        cout << "[ ";
+        while (atual) {
+            cout << atual->valor;
+            if (atual->prox) cout << " <-> ";
+            atual = atual->prox;
+        }
+        cout << " ]" << endl;
+    }
+}
+
+void listaDupla::printDecrescente(){
     Node2* atual = inicio;
-    while (atual) {
-        cout << atual->valor;
-        if (atual->prox) cout << " <-> ";
+
+    while (atual->prox != nullptr){
         atual = atual->prox;
     }
-    cout << endl;
+
+    cout << "[ ";
+    while (atual) {
+        cout << atual->valor;
+        if (atual->anterior) cout << " <-> ";
+        atual = atual->anterior;
+    }
+    cout << " ]" << endl;
 }
 

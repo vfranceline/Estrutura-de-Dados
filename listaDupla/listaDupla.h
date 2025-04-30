@@ -8,15 +8,14 @@ struct Node2 {
 class listaDupla{
     private:
     Node2* inicio;
-    Node* fim;
+    Node2* fim;
     
     public:
     listaDupla(); //construtor
-    ~listaDupla(); //destrutor
     
     bool isEmpty();
     bool isFull();
     void push(TipoItem item);
-    TipoItem pop();
+    bool pop(TipoItem item);
     void print();
 };

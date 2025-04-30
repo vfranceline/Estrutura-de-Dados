@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(){
-    dynamicQueue lista1;
+    listaDupla lista1;
     TipoItem item;
     int opcao;
 
@@ -23,8 +23,9 @@ int main(){
             cin >> item;
             lista1.push(item);
         } else if (opcao == 2){
-            item = lista1.pop();
-            cout << "elemento removido: " << item << endl;
+            cout << "digite o elemento a ser removido ! \n";
+            cin >> item;
+            lista1.pop(item);
         } else if (opcao == 3){
             lista1.print();
         }

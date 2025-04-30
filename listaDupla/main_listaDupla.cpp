@@ -11,7 +11,7 @@ int main(){
     cout << "Programa gerador de fila: \n";
 
     do{
-        cout << "digite 0 para parar o programa! \n";
+        cout << "\ndigite 0 para parar o programa! \n";
         cout << "digite 1 para inserir um elemento! \n";
         cout << "digite 2 para remover um elemento! \n";
         cout << "digite 3 para imprimir a fila! \n";
@@ -27,7 +27,8 @@ int main(){
             cin >> item;
             lista1.pop(item);
         } else if (opcao == 3){
-            lista1.print();
+            lista1.printDecrescente();
+            lista1.printCrescente();
         }
         
     } while (opcao != 0);

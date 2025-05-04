@@ -1,37 +1,43 @@
+// main.cpp
 #include <iostream>
 #include "listaDupla.h"
 
-using namespace std;
+int main() {
+    listaDupla L;
 
-int main(){
-    listaDupla lista1;
-    TipoItem item;
-    int opcao;
+    // 1) isEmpty / isFull
+    std::cout << "isEmpty(): " << (L.isEmpty() ? "true" : "false") << std::endl;
+    std::cout << "isFull():  " << (L.isFull()  ? "true" : "false") << std::endl;
 
-    cout << "Programa gerador de fila: \n";
+    // 2) Inserções
+    int valores[] = {5, 2, 9, 4, 7};
+    for (int v : valores) {
+        std::cout << "push(" << v << ")\n";
+        L.push(v);
+    }
 
-    do{
-        cout << "\ndigite 0 para parar o programa! \n";
-        cout << "digite 1 para inserir um elemento! \n";
-        cout << "digite 2 para remover um elemento! \n";
-        cout << "digite 3 para imprimir a fila! \n";
+    // 3) Impressões
+    std::cout << "\nLista crescente:   ";  L.printCrescente();
+    std::cout << "Lista decrescente: ";  L.printDecrescente();
+    std::cout << "Sublista pares:    ";  L.printPares();
+    std::cout << "Sublista ímpares:  ";  L.printImpares();
 
-        cin >> opcao;
+    // 4) Remoções
+    std::cout << "\npop(9)\n";  L.pop(9);
+    std::cout << "Após pop(9):       ";  L.printCrescente();
 
-        if (opcao == 1){
-            cout << "digite o elemento a ser inserido ! \n";
-            cin >> item;
-            lista1.push(item);
-        } else if (opcao == 2){
-            cout << "digite o elemento a ser removido ! \n";
-            cin >> item;
-            lista1.pop(item);
-        } else if (opcao == 3){
-            lista1.printDecrescente();
-            lista1.printCrescente();
-        }
-        
-    } while (opcao != 0);
+    std::cout << "pop(2)\n";  L.pop(2);
+    std::cout << "Após pop(2):       ";  L.printCrescente();
+    std::cout << "Sublista pares:    ";  L.printPares();
+    std::cout << "Sublista ímpares:  ";  L.printImpares();
+
+    std::cout << "pop(7)\n";  L.pop(7);
+    std::cout << "Após pop(7):       ";  L.printCrescente();
+    std::cout << "Sublista pares:    ";  L.printPares();
+    std::cout << "Sublista ímpares:  ";  L.printImpares();
+
+    // 5) Estado final
+    std::cout << "\nisEmpty(): " << (L.isEmpty() ? "true" : "false") << std::endl;
 
     return 0;
 }

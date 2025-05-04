@@ -8,7 +8,13 @@ struct Node2 {
 class listaDupla{
     private:
     Node2* inicio;
-    Node2* fim;
+    // Node2* fim; //não estamos usando
+    Node2* pares;
+    Node2* impares;
+
+    void pushImpar(TipoItem item);
+    void pushPar(TipoItem item);
+    void popSublistas(Node2*& sublista, TipoItem item);
     
     public:
     listaDupla(); //construtor
@@ -16,7 +22,11 @@ class listaDupla{
     bool isEmpty();
     bool isFull();
     void push(TipoItem item);
+    
     void pop(TipoItem item);
+    void printPares();
+    void printImpares();
     void printCrescente();
     void printDecrescente();
+
 };

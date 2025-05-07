@@ -133,7 +133,8 @@ void listas::ordenar(){
                     // Subcaso 2c: Insere entre dois nós na lista
                     // (Atenção: Esta implementação contém um erro lógico)
                     aux->prox = atual;
-                    novaLista = aux; // Isso está incorreto, deveria ser ant->prox = aux
+                    // novaLista = aux; // Isso está incorreto, deveria ser ant->prox = aux
+                    ant->prox = aux;
                 }
             }
         }

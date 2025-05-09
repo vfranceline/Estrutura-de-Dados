@@ -10,7 +10,6 @@ struct Node
 class editorTexto {
     private:
     Node *inicio;
-    Node *fim;
     Node *atual;
 
     public:
@@ -21,46 +20,15 @@ class editorTexto {
     void navegarPalavras(char direcao);
     void printText();
     void printAtual();
-
-    void inserir(std::string palavra);
 };
 
 editorTexto::editorTexto(){
     inicio = nullptr;
-    fim = nullptr;
     atual = nullptr;
 }
 
-void editorTexto::inserir(std::string palavra){
-    Node *novo, *aux;
-
-    novo = new Node();
-    
-    if (novo == nullptr){
-        std::cout << "sem memoria" << std::endl;
-        return;
-    }
-
-    novo->info = palavra;
-    aux = inicio;
-
-    if (inicio == nullptr){
-        novo->prox = novo;
-        novo->anterior = novo;
-        inicio = novo;
-    } else {
-        novo->prox = inicio;
-        inicio->anterior = novo;
-        fim->prox = novo;
-        novo->anterior = fim;
-        inicio->prox = novo;     
-    }
-
-    fim = novo;
-}
-
 void editorTexto::inserirAtual(std::string palavra){
-    Node *novo, *atual;
+    Node *novo;
 
     novo = new Node();
 
@@ -75,20 +43,23 @@ void editorTexto::inserirAtual(std::string palavra){
         novo->prox = novo;
         novo->anterior = novo;
         inicio = novo;
-    } else {
-        if (atual->prox == inicio){ //atual é a ultima palavra
-            novo->prox = inicio;
-            inicio->anterior = novo;
-            atual->prox = novo;
-            novo->anterior = atual;
-        } else { //atual pode ser inicio ou estiver no meio
-            novo->prox = atual->prox;
-            atual->prox->anterior = novo;
-            atual->prox = novo;
-            novo->anterior = atual;        
-        }
-        // atual = atual->prox; //atualizar a posição de atual
-    }
+        atual = novo;
+        return;
+    } 
+
+    if (atual->prox == inicio){ //atual é a ultima palavra
+        novo->prox = inicio;
+        inicio->anterior = novo;
+        atual->prox = novo;
+        novo->anterior = atual;
+        atual = atual->prox;
+    } else { //atual pode ser inicio ou estar no meio
+        novo->prox = atual->prox;
+        atual->prox->anterior = novo;
+        atual->prox = novo;
+        novo->anterior = atual;
+        atual = novo;
+    }    
 }
 
 void editorTexto::editarAtual(std::string palavra){
@@ -108,12 +79,10 @@ void editorTexto::eliminarAtual(){
         return;
     }
 
-    // atual = atual->anterior;
-    if (atual->prox == atual->anterior){ //se atual for o unico elemento da lista
-        //atual e inicio delete?
+    if (atual == inicio && atual->prox == inicio){ //se atual for o unico elemento da lista
         atual = nullptr;
         inicio = nullptr;
-        std::cout << "lista vazia" << std::endl;
+        std::cout << "lista vazia \n" << std::endl;
     } else {
         atual = atual->anterior;
 
@@ -149,24 +118,26 @@ void editorTexto::navegarPalavras(char direcao){
 
 
 void editorTexto::printText(){
-    Node *atual = inicio;
-    std::cout << "lista circular = [";
+    Node *aux = inicio;
+
+    std::cout << "\n" << std::endl;
 
     if (inicio == nullptr){
-        std::cout << "*vazia* ";
+        std::cout << "*vazia* \n" << std::endl;
         return;
     } else {
-        while(atual->prox != inicio){
-            std::cout << atual->info << " ";
-            atual = atual->prox;
-        }
+        do {
+            std::cout << aux->info << " ";
+            aux = aux->prox;
+        } while (aux != inicio);
+
+        std::cout << "\n" << std::endl;
     }
-    std::cout << "] \n" << std::endl;
 }
 
 void editorTexto::printAtual(){
     if (atual != nullptr) std::cout << "Palavra atual: " << atual->info << std::endl;
-    else std::cout << "não foi possivel printar atual (lista vazia)" << std::endl;
+    else std::cout << "*lista vazia* " << std::endl;
 }
 
 int main(){
@@ -179,6 +150,7 @@ int main(){
         editor.printText();
         editor.printAtual();
 
+        std::cout << "\nInsira uma opção: " << std::endl;
         std::cout << "E: Editar palavra atual" << std::endl;
         std::cout << "D: Inserir (depois da palavra atual)" << std::endl;
         std::cout << "S: Eliminar palavra" << std::endl;
@@ -193,14 +165,14 @@ int main(){
         case 'E':
         case 'e':
             std::cout << "Nova palavra: ";
-            std::getline(std::cin, palavra);
+            std::cin >> palavra;
             editor.editarAtual(palavra);
             break;
         
         case 'D':
         case 'd':
             std::cout << "Palavra a inserir: ";
-            std::getline(std::cin, palavra);
+            std::cin >> palavra;
             editor.inserirAtual(palavra);
             break;
     
@@ -219,7 +191,7 @@ int main(){
     
         case 'X':
         case 'x':
-            std::cout << "Saindo." << std::endl;    
+            std::cout << "Saindo..." << std::endl;    
             break;
         
         default:

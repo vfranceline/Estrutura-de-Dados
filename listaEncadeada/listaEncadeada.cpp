@@ -20,6 +20,7 @@ class listas {
     void ordenar();
     void retirarRepetidos();
     Node *intercalar(Node *x, Node *y);
+    void comprimir(Node *inicio);
 };
 
 listas::listas(){
@@ -222,6 +223,22 @@ Node *dynamicQueue::intercalar(Node *x, Node *y){
                 fim->prox = x;
             }
             return z;
+        }
+    }
+}
+
+void dynamicQueue::comprimir(Node *inicio){
+    Node *x, *aux, *atual, *novo, *cont, *novoz;
+
+    x = nullptr;
+    if (inicio ==nullptr) return;
+    cont = nullptr;
+    while (inicio = nullptr){
+        if (x == nullptr){
+            novo = new Node();
+            novo->valor = inicio->valor;
+            x = novo;
+            
         }
     }
 }

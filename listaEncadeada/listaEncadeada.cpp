@@ -19,6 +19,7 @@ class listas {
     void listar();
     void ordenar();
     void retirarRepetidos();
+    Node *intercalar(Node *x, Node *y);
 };
 
 listas::listas(){
@@ -181,4 +182,46 @@ void listas::retirarRepetidos(){
     }
     // Atualiza o início para a nova lista sem repetições
     inicio = novaLista;
+}
+
+Node *dynamicQueue::intercalar(Node *x, Node *y){
+    Node *z, *fim, *ax, *ay;
+
+    z = nullptr;
+
+    if (x == nullptr){
+        z = y;
+    } else {
+        if(y == nullptr){
+            z = x;
+        } else {
+            while ((x != nullptr) && (y != nullptr)){
+                ax = x;
+                x = x->prox;
+                ay = y;
+                y = y->prox;
+
+                ax->prox = ay;
+                ay->prox = nullptr;
+
+                if (z == nullptr){
+                    z = ax;
+                    fim = ay;
+                } else{
+                    fim->prox = ax;
+                    fim->ay; //???????????????????????
+                }
+            }
+            if (x == nullptr){
+                if (y == nullptr){
+                    return z;
+                } else {
+                    fim->prox = y;
+                }
+            } else{
+                fim->prox = x;
+            }
+            return z;
+        }
+    }
 }

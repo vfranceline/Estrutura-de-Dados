@@ -1,12 +1,32 @@
+typedef int TipoItem; //para poder trocar o tipo dos elementos da stack de forma mais facil
 #include <iostream>
-#include "listaDupla.h"
 
 using namespace std;
 
+struct Node2 {
+    TipoItem valor;
+    Node2 *anterior, *prox;
+};
+
+class listaDupla{
+    private:
+    Node2* inicio;
+    Node2* fim;
+    
+    public:
+    listaDupla(); //construtor
+    
+    bool isEmpty();
+    bool isFull();
+    void push(TipoItem item);
+    void pop(TipoItem item);
+    void print();
+    void eliminarAntProx(int n);
+};
+
+
 listaDupla::listaDupla(){
     inicio = nullptr;
-    pares = nullptr;
-    impares = nullptr;
 }
 
     
@@ -27,7 +47,7 @@ bool listaDupla::isFull(){
 }
 
 void listaDupla::push(TipoItem item){
-    Node2 *novo, *atual;
+    Node2 *novo;
 
     novo = new Node2();
     if (novo == nullptr){
@@ -35,45 +55,18 @@ void listaDupla::push(TipoItem item){
         return;
     }
     novo->valor = item;
-
-    if (item%2 == 0){
-        pushPar(item);
-    } else {
-        pushImpar(item);
-    }
+    novo->prox = nullptr;
+    novo->anterior = nullptr;
 
     if (inicio == nullptr){
-        novo->anterior = nullptr;
-        novo->prox = nullptr;
         inicio = novo;
+        fim = inicio;
         return;
+    } else {
+        novo->anterior = fim;
+        fim->prox = novo;
+        fim = novo;
     }
-
-    atual = inicio;
-
-    while ((atual->prox != nullptr) && (novo->valor > atual->valor)){
-        atual = atual->prox;
-    }
-
-    if ((atual->prox == nullptr) && (novo->valor > atual->valor)){
-        atual->prox = novo;
-        novo->anterior = atual;
-        novo->prox = nullptr;
-        return;
-    } else if ((atual == inicio)){ //antes do inicio
-        novo->prox = inicio;
-        inicio->anterior = novo;
-        novo->anterior = nullptr;
-        inicio = novo;
-    } else{ //meio
-        novo->anterior = atual->anterior;
-        atual->anterior->prox = novo;
-        novo->prox = atual;
-        atual->anterior = novo;
-    }
-
-    //TO-DO: lista ordenada com sublistas
-    //sublistas de pares e impares
 
 }
 
@@ -108,128 +101,10 @@ void listaDupla::pop(TipoItem item){
             }
         }
         delete atual;
-        if (item%2 == 0){
-            popSublistas(pares, item);
-        } else {
-            popSublistas(impares, item);
-        }
     }
 }
 
-void listaDupla::pushImpar(TipoItem item){
-    Node2 *novo, *atual;
-
-    novo = new Node2();
-    if (novo == nullptr){
-        cout << "sem memoria :/"<< endl;
-        return;
-    }
-    novo->valor = item;
-
-    if (impares == nullptr){
-        novo->anterior = nullptr;
-        novo->prox = nullptr;
-        impares = novo;
-        return;
-    }
-
-    atual = impares;
-
-    while ((atual->prox != nullptr) && (novo->valor > atual->valor)){
-        atual = atual->prox;
-    }
-
-    if ((atual->prox == nullptr) && (novo->valor > atual->valor)){
-        atual->prox = novo;
-        novo->anterior = atual;
-        novo->prox = nullptr;
-        return;
-    } else if ((atual == impares)){ //antes do inicio
-        novo->prox = impares;
-        impares->anterior = novo;
-        novo->anterior = nullptr;
-        impares = novo;
-    } else{ //meio
-        novo->anterior = atual->anterior;
-        atual->anterior->prox = novo;
-        novo->prox = atual;
-        atual->anterior = novo;
-    }
-}
-
-void listaDupla::pushPar(TipoItem item){
-    Node2 *novo, *atual;
-
-    novo = new Node2();
-    if (novo == nullptr){
-        cout << "sem memoria :/"<< endl;
-        return;
-    }
-    novo->valor = item;
-
-    if (pares == nullptr){
-        novo->anterior = nullptr;
-        novo->prox = nullptr;
-        pares = novo;
-        return;
-    }
-
-    atual = pares;
-
-    while ((atual->prox != nullptr) && (novo->valor > atual->valor)){
-        atual = atual->prox;
-    }
-
-    if ((atual->prox == nullptr) && (novo->valor > atual->valor)){
-        atual->prox = novo;
-        novo->anterior = atual;
-        novo->prox = nullptr;
-        return;
-    } else if ((atual == pares)){ //antes do inicio
-        novo->prox = pares;
-        pares->anterior = novo;
-        novo->anterior = nullptr;
-        pares = novo;
-    } else{ //meio
-        novo->anterior = atual->anterior;
-        atual->anterior->prox = novo;
-        novo->prox = atual;
-        atual->anterior = novo;
-    }
-}
-
-void listaDupla::popSublistas(Node2*& inicioSublista, TipoItem item){
-    Node2* atual = inicioSublista;
-
-    while((atual != nullptr) && (atual->valor != item)){
-        atual = atual->prox;
-    }
-    if(atual == nullptr){
-        cout << "não exite esse elemento \n";
-        return;
-    }
-    if (atual == inicioSublista && atual->prox == nullptr){
-        //se o elemento a ser removido for o primeiro e unico na lista
-        inicioSublista = nullptr;
-        return;
-    }
-    if (inicioSublista == atual){
-        //se o elemento a ser removido for o primeiro na lista
-        inicioSublista = inicioSublista->prox;
-        inicioSublista->anterior = nullptr;
-    } else {
-        if (atual->prox == nullptr){
-            //se o elemento a ser removido for o ultimo da lista
-            atual->anterior->prox = nullptr;
-        } else {
-            atual->anterior->prox = atual->prox;
-            atual->prox->anterior = atual->anterior;
-        }
-    }
-    delete atual;
-}
-
-void listaDupla::printCrescente(){
+void listaDupla::print(){
     if (isEmpty()) {
         cout << "lista vazia \n";
     } else{
@@ -244,40 +119,82 @@ void listaDupla::printCrescente(){
     }
 }
 
-void listaDupla::printDecrescente(){
-    Node2* atual = inicio;
-
-    while (atual->prox != nullptr){
-        atual = atual->prox;
+void listaDupla::eliminarAntProx(int n){
+    if(inicio == nullptr){
+        return;
     }
 
-    cout << "[ ";
-    while (atual) {
-        cout << atual->valor;
-        if (atual->anterior) cout << " <-> ";
-        atual = atual->anterior;
+    Node2 *atual = inicio;
+
+    while (atual != nullptr){
+        Node2 *anterior = atual->anterior;
+        Node2 *proximo = atual->prox;
+
+        Node2 *proximoAtual = atual->prox;
+
+        if (atual->valor == n){
+            if (anterior != nullptr){
+                if (anterior->anterior != nullptr){
+                    atual->anterior = anterior->anterior;
+                    anterior->anterior->prox = atual;
+                } else {
+                    atual->anterior = nullptr;
+                    inicio = atual;
+                }
+
+                delete anterior;
+            }
+
+            if (proximo != nullptr){
+                if (proximo->prox != nullptr){
+                    atual->prox = proximo->prox;
+                    proximo->prox->anterior = atual;
+                } else {
+                    atual->prox = nullptr;
+                    fim = atual;
+                }
+                delete proximo;
+            }
+        }
+        atual = proximoAtual;        
     }
-    cout << " ]" << endl;
 }
 
-void listaDupla::printPares(){
-    Node2* atual = pares;
-    cout << "Pares: [ ";
-    while (atual) {
-        cout << atual->valor;
-        if (atual->prox) cout << " <-> ";
-        atual = atual->prox;
-    }
-    cout << " ]\n";
-}
+int main(){
+    listaDupla lista;
+    int item;
+    int opcao;
 
-void listaDupla::printImpares(){
-    Node2* atual = impares;
-    cout << "Impares: [ ";
-    while (atual) {
-        cout << atual->valor;
-        if (atual->prox) cout << " <-> ";
-        atual = atual->prox;
-    }
-    cout << " ]\n";
+    cout << "Programa gerador de lista: \n";
+
+    do{
+        cout << "digite 0 para parar o programa! \n";
+        cout << "digite 1 para inserir um elemento! \n";
+        cout << "digite 2 para remover um elemento! \n";
+        cout << "digite 3 para imprimir a lista! \n";
+        cout << "digite 4 para remover o antecessor e o sucessor de um elemento! \n";
+
+
+        cin >> opcao;
+
+        if (opcao == 1){
+            cout << "digite o elemento a ser inserido ! \n";
+            cin >> item;
+            lista.push(item);
+        } else if (opcao == 2){
+            cout << "digite o elemento a ser removido ! \n";
+            cin >> item;
+            lista.pop(item);
+        } else if (opcao == 3){
+            lista.print();
+        } else if (opcao == 4){
+            cout << "digite o elemento para eliminar seu antecessor e sucessor \n";
+            cin >> item;
+            lista.eliminarAntProx(item);
+        }
+        
+        
+    } while (opcao != 0);
+
+    return 0;
 }

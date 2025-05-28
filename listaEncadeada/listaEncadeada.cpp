@@ -15,9 +15,10 @@ class listas {
     public:
     listas();
     void inserir(int item);
-    int retirar(int item);
+    void retirar(int item);
     void listar();
     void ordenar();
+    void removerAntProx(int x);
     void retirarRepetidos();
 };
 
@@ -49,7 +50,7 @@ void listas::inserir(int item){
     }
 }
 
-int listas::retirar(int item){
+void listas::retirar(int item){
     Node *aux = inicio;
     Node *ant = inicio;
 
@@ -92,6 +93,7 @@ void listas::listar(){
 }
 
 void listas::ordenar(){
+    //Variável ant não inicializada em cada iteração de ordenação
     Node *novaLista, *ant = nullptr, *atual, *aux;
 
     novaLista = nullptr; // Nova lista ordenada que será construída
@@ -181,4 +183,53 @@ void listas::retirarRepetidos(){
     }
     // Atualiza o início para a nova lista sem repetições
     inicio = novaLista;
+}
+
+// void removerRepetidos(Nodo* inicio) {
+//     for (Nodo* i = inicio; i != nullptr; i = i->prox) {
+//         Nodo* antJ = i;
+//         for (Nodo* j = i->prox; j != nullptr; j = j->prox) {
+//             antJ = antJ->prox;
+//             if (i->dado == j->dado) {
+//                 // Remove o nó repetido
+//                 antJ->prox = j->prox;
+//                 delete j;
+//             }
+//         }
+//     }
+// }
+
+void listas::removerAntProx(int x){
+    if (inicio == nullptr){
+        return;
+    }
+
+    Node *atual = inicio;
+    Node *preAnt = nullptr;
+    Node *antecessor = nullptr;
+
+    while (atual != nullptr && atual->valor != x){
+        preAnt = antecessor;
+        antecessor = atual;
+        atual = atual->prox;
+    }
+
+    if (atual == nullptr){
+        return; //numero não existe
+    }
+
+    if(antecessor != nullptr){
+        if (preAnt != nullptr){
+            preAnt->prox = atual;
+        } else{
+            inicio = atual;
+        }
+        delete antecessor;
+    }
+
+    if(atual->prox != nullptr){
+        Node *sucessor = atual->prox;
+        atual->prox = sucessor->prox;
+        delete sucessor;
+    }
 }

@@ -16,5 +16,6 @@ class listaOrdenada
     void push(int item);
     void pop(int item);
     void print();
+    Node* ordena(Node* inicio);
 };
 

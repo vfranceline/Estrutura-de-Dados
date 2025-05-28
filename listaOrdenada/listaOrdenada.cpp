@@ -59,6 +59,10 @@ void listaOrdenada::push(int item){
         }
     }
 }
+Node listaOrdenada::*ordena(Node* inicio){
+    
+}
+
 
 void listaOrdenada::pop(int item){
     if (isEmpty()){

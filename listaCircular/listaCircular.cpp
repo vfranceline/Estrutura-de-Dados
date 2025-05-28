@@ -13,6 +13,7 @@ class listaCircular {
     private:
     Node *inicio;
     Node *fim;
+    Node *atual
 
     public:
     listaCircular();
@@ -22,14 +23,16 @@ class listaCircular {
     void palavraAnterior();
     void palavraPosterior();
     void printText();
+    void printAtual();
 };
 
 listaCircular::listaCircular(){
     inicio = nullptr;
+    fim = nullptr;
 }
 
 void listaCircular::inserir(std::string palavra){
-    Node *novo, *atual;
+    Node *novo, *aux;
 
     novo = new Node();
     
@@ -39,7 +42,7 @@ void listaCircular::inserir(std::string palavra){
     }
 
     novo->info = palavra;
-    atual = inicio;
+    aux = inicio;
 
     if (inicio == nullptr){
         novo->prox = novo;
@@ -57,5 +60,16 @@ void listaCircular::inserir(std::string palavra){
 }
 
 void listaCircular::printText(){
+    Node *atual = inicio;
+    cout << "lista circular = [";
 
+    while(atual->prox != inicio){
+        cout << atual->info << " ";
+        atual = atual->prox;
+    }
+    cout << "] \n" << endl;
+}
+
+void listaCircular::printAtual(){
+    Node *a
 }

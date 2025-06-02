@@ -20,6 +20,8 @@ class listas {
     void ordenar();
     void removerAntProx(int x);
     void retirarRepetidos();
+    Node *intercalar(Node *x, Node *y);
+    void comprimir(Node *inicio);
 };
 
 listas::listas(){
@@ -185,6 +187,7 @@ void listas::retirarRepetidos(){
     inicio = novaLista;
 }
 
+<<<<<<< HEAD
 // void removerRepetidos(Nodo* inicio) {
 //     for (Nodo* i = inicio; i != nullptr; i = i->prox) {
 //         Nodo* antJ = i;
@@ -231,5 +234,62 @@ void listas::removerAntProx(int x){
         Node *sucessor = atual->prox;
         atual->prox = sucessor->prox;
         delete sucessor;
+=======
+Node *dynamicQueue::intercalar(Node *x, Node *y){
+    Node *z, *fim, *ax, *ay;
+
+    z = nullptr;
+
+    if (x == nullptr){
+        z = y;
+    } else {
+        if(y == nullptr){
+            z = x;
+        } else {
+            while ((x != nullptr) && (y != nullptr)){
+                ax = x;
+                x = x->prox;
+                ay = y;
+                y = y->prox;
+
+                ax->prox = ay;
+                ay->prox = nullptr;
+
+                if (z == nullptr){
+                    z = ax;
+                    fim = ay;
+                } else{
+                    fim->prox = ax;
+                    fim->ay; //???????????????????????
+                }
+            }
+            if (x == nullptr){
+                if (y == nullptr){
+                    return z;
+                } else {
+                    fim->prox = y;
+                }
+            } else{
+                fim->prox = x;
+            }
+            return z;
+        }
+    }
+}
+
+void dynamicQueue::comprimir(Node *inicio){
+    Node *x, *aux, *atual, *novo, *cont, *novoz;
+
+    x = nullptr;
+    if (inicio ==nullptr) return;
+    cont = nullptr;
+    while (inicio = nullptr){
+        if (x == nullptr){
+            novo = new Node();
+            novo->valor = inicio->valor;
+            x = novo;
+            
+        }
+>>>>>>> 8cf89eedcf03982257f3d01a11d81554b768062f
     }
 }
